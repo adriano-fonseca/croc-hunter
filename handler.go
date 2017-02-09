@@ -45,11 +45,14 @@ var html = `
         <div class="details">
 		<strong>Hostname:</strong> %s<br>
 		<strong>Release:</strong> %s<br>
+    <div style="visibility: hidden;">
+		<strong>Powered By:</strong> %s<br>
+    </div>
         </div>
     </body>
 </html>
 `
 
 func httpHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, html, hostname, release, commit, powered)
+	fmt.Fprintf(w, html, hostname, release, commit)
 }
