@@ -1,7 +1,5 @@
-FROM golang:1.6-alpine
-
+FROM golang:1.6-alpine as builder
 MAINTAINER Lachlan Evenson <lachlan.evenson@gmail.com>
-
 ARG VCS_REF
 ARG BUILD_DATE
 
@@ -16,9 +14,11 @@ COPY static/ static/
 
 ENV GIT_SHA $VCS_REF
 ENV GOPATH /go
-RUN cd $GOPATH/src/github.com/lachie83/croc-hunter && go install -v .
+RUN cd $GOPATH/src/github.com/lachie83/croc-hunter && go build .
 
-CMD ["croc-hunter"]
 
+FROM alpine:latest  
+WORKDIR /root/
+COPY --from=builder /go/src/github.com/lachie83/croc-hunter .
+CMD ["./croc-hunter"]
 EXPOSE 8080
-	
