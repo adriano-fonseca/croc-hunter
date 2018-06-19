@@ -1,22 +1,37 @@
 # croc-hunter
 
-[![](https://images.microbadger.com/badges/image/lachlanevenson/croc-hunter.svg)](http://microbadger.com/images/lachlanevenson/croc-hunter "Get your own image badge on microbadger.com")
-[![](https://images.microbadger.com/badges/version/lachlanevenson/croc-hunter.svg)](http://microbadger.com/images/lachlanevenson/croc-hunter "Get your own version badge on microbadger.com")
-[![](https://images.microbadger.com/badges/commit/lachlanevenson/croc-hunter.svg)](http://microbadger.com/images/lachlanevenson/croc-hunter "Get your own commit badge on microbadger.com")
+As go application...
 
-[![CircleCI](https://circleci.com/gh/lachie83/croc-hunter.svg?style=svg)](https://circleci.com/gh/lachie83/croc-hunter)
+```
+go build
+./croc-hunter
+```
+
+## Container form
+
+To build an image.
 
 
-# Deploy using Deis Workflow
-## Dockerfile
-Add Dockerfile to your repo
 ```
-cd <repo-path>
-deis create
-git push deis master
+docker image build -t adrianofonseca/croc-hunter:v1 .
+
 ```
-## Docker images
+
+To run as a container...
+
 ```
-deis create --no-remote
-deis pull <repo>/<image-name> -a <app-name>
+docker container run -e WORKFLOW_RELEASE=V1 -p 8080:8080  adrianofonseca/croc-hunter:v1
+```
+
+
+## Deploy as a service
+
+```
+docker service create --replicas 1 --name croc-hunter -p 8080:8080 -e WORKFLOW_RELEASE=v1  --update-delay 10s targettrust/croc-hunter:v1
+```
+
+## Rolling Update ##
+
+```
+docker service update --env-add WORKFLOW_RELEASE=v2  --image targettrust/croc-hunter:v2 croc-hunter
 ```
