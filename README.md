@@ -4,6 +4,7 @@ As go application...
 
 ```
 go build
+export WORKFLOW_RELEASE=v1
 ./croc-hunter
 ```
 
